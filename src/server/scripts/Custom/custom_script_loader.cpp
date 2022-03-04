@@ -21,6 +21,7 @@ void AddSC_CrossfactionBattlegrounds();
 void AddSC_AutoBalance();
 void AddSC_AddCongratsOnLevelScripts();
 void AddSC_AddCustomServerScripts();
+void AddSC_npc_1v1arena();
 
 // The name of this function should match:
 // void Add${NameOfDirectory}Scripts()
@@ -31,4 +32,5 @@ void AddCustomScripts()
     AddSC_AutoBalance();
 	AddSC_AddCongratsOnLevelScripts();
 	AddSC_AddCustomServerScripts();
+	AddSC_npc_1v1arena();
 }
