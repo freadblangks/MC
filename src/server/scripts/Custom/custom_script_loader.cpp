@@ -27,6 +27,9 @@ void AddSC_AddMoneyForKillsScripts();
 void AddSC_AddPlayerNotSpeakScripts();
 void AddSC_AddBeastMasterScripts();
 void AddSC_AddNPCBufferScripts();
+void AddSC_AddNPCGamblerScripts();
+void AddSC_Npc_VisualWeaponScripts();
+void AddSC_AddRewardSystemScripts();
 
 // The name of this function should match:
 // void Add${NameOfDirectory}Scripts()
@@ -43,4 +46,7 @@ void AddCustomScripts()
 	AddSC_AddPlayerNotSpeakScripts();
 	AddSC_AddBeastMasterScripts();
 	AddSC_AddNPCBufferScripts();
+	AddSC_AddNPCGamblerScripts();
+	AddSC_Npc_VisualWeaponScripts();
+	AddSC_AddRewardSystemScripts();
 }
