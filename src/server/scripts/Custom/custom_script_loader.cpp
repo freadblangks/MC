@@ -30,6 +30,7 @@ void AddSC_AddNPCBufferScripts();
 void AddSC_AddNPCGamblerScripts();
 void AddSC_Npc_VisualWeaponScripts();
 void AddSC_AddRewardSystemScripts();
+void AddSC_GOMove_commandscript();
 
 // The name of this function should match:
 // void Add${NameOfDirectory}Scripts()
@@ -49,4 +50,5 @@ void AddCustomScripts()
 	AddSC_AddNPCGamblerScripts();
 	AddSC_Npc_VisualWeaponScripts();
 	AddSC_AddRewardSystemScripts();
+	AddSC_GOMove_commandscript();
 }
