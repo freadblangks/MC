@@ -1,12 +1,20 @@
 Install Screen.
+
 sudo apt install screen
 or
 sudo pacman -S screen
+
 Chmod.
+
 sudo chmod 777 resw
 sudo chmod 777 resa
 sudo chmod 777 sa
 sudo chmod 777 sw
+
+Start Emulator.
+
+sudo sh ./sa
+sudo sh ./sw
 
 Look Screen Console, Type:
 
