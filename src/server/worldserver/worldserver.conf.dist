@@ -4471,7 +4471,7 @@ CrossFactionBattlegrounds.ReplaceRacials = 0
 #        Announce the module on login
 #        Default:     1 (1 = ON, 0 = OFF)
 
-AutoBalanceAnnounce.enable = 1
+AutoBalanceAnnounce.enable = 0
 
 #
 # AUTOBALANCE OPTIONS
@@ -4814,7 +4814,7 @@ IpTracker.Enabled = 1
 #        Default:       0  - Disabled (do not remove anything)
 #                       90 - Remove ip logs older than 90 days
 
-IpTracker.CleanOlderThanDays = 60
+IpTracker.CleanOlderThanDays = 0
 
 ###################################################################################################
 #	MONEY FOR KILLS
@@ -4881,7 +4881,7 @@ BeastMaster.Announce = 0
 
 # Enable only for the Hunter class?
 
-BeastMaster.HunterOnly = 0
+BeastMaster.HunterOnly = 1
 
 # Allow Exotic Beast Taming without spec?
 
