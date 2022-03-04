@@ -22,6 +22,10 @@ void AddSC_AutoBalance();
 void AddSC_AddCongratsOnLevelScripts();
 void AddSC_AddCustomServerScripts();
 void AddSC_npc_1v1arena();
+void AddSC_AddIpTrackerScripts();
+void AddSC_AddMoneyForKillsScripts();
+void AddSC_AddPlayerNotSpeakScripts();
+void AddSC_AddBeastMasterScripts();
 
 // The name of this function should match:
 // void Add${NameOfDirectory}Scripts()
@@ -33,4 +37,8 @@ void AddCustomScripts()
 	AddSC_AddCongratsOnLevelScripts();
 	AddSC_AddCustomServerScripts();
 	AddSC_npc_1v1arena();
+	AddSC_AddIpTrackerScripts();
+	AddSC_AddMoneyForKillsScripts();
+	AddSC_AddPlayerNotSpeakScripts();
+	AddSC_AddBeastMasterScripts();
 }
