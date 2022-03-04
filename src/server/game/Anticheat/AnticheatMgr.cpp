@@ -222,7 +222,7 @@ void AnticheatMgr::SpeedHackDetection(Player* player,MovementInfo movementInfo)
     }
 }
 
-+void AnticheatMgr::StartScripts()
+void AnticheatMgr::StartScripts()
 {
     new AnticheatScripts();
 }
