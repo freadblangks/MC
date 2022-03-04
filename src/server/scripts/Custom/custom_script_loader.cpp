@@ -26,6 +26,7 @@ void AddSC_AddIpTrackerScripts();
 void AddSC_AddMoneyForKillsScripts();
 void AddSC_AddPlayerNotSpeakScripts();
 void AddSC_AddBeastMasterScripts();
+void AddSC_AddNPCBufferScripts();
 
 // The name of this function should match:
 // void Add${NameOfDirectory}Scripts()
@@ -41,4 +42,5 @@ void AddCustomScripts()
 	AddSC_AddMoneyForKillsScripts();
 	AddSC_AddPlayerNotSpeakScripts();
 	AddSC_AddBeastMasterScripts();
+	AddSC_AddNPCBufferScripts();
 }
