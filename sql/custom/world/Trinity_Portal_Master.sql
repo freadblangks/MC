@@ -32,8 +32,12 @@ DELETE from gameobject WHERE ID = @RUNE AND guid >= 200000;
 
 -- Teleporter
 
-INSERT INTO creature_template (entry, modelid1, name, subname, IconName, gossip_menu_id, minlevel, maxlevel, faction, npcflag, speed_walk, speed_run, scale, rank, unit_class, unit_flags, type, type_flags, RegenHealth, flags_extra, AiName) VALUES
-(@ENTRY, @MODEL, @NAME, @SUBNAME, "Directions", @GOSSIP_MENU, 71, 71, 35, 3, 1, 1.14286, 1.25, 1, 1, 2, 7, 138936390, 1, 2, "SmartAI");
+DELETE FROM creature_template WHERE entry = @ENTRY;
+INSERT INTO `creature_template` (`entry`, `difficulty_entry_1`, `difficulty_entry_2`, `difficulty_entry_3`, `KillCredit1`, `KillCredit2`, `modelid1`, `modelid2`, `modelid3`, `modelid4`, `name`, `subname`, `IconName`, `gossip_menu_id`, `minlevel`, `maxlevel`, `exp`, `faction`, `npcflag`, `speed_walk`, `speed_run`, `scale`, `rank`, `dmgschool`, `BaseAttackTime`, `RangeAttackTime`, `BaseVariance`, `RangeVariance`, `unit_class`, `unit_flags`, `unit_flags2`, `dynamicflags`, `family`, `type`, `type_flags`, `lootid`, `pickpocketloot`, `skinloot`, `PetSpellDataId`, `VehicleId`, `mingold`, `maxgold`, `AIName`, `MovementType`, `HoverHeight`, `HealthModifier`, `ManaModifier`, `ArmorModifier`, `DamageModifier`, `ExperienceModifier`, `RacialLeader`, `movementId`, `RegenHealth`, `mechanic_immune_mask`, `spell_school_immune_mask`, `flags_extra`, `ScriptName`, `VerifiedBuild`) VALUES
+(@ENTRY,'0','0','0','0','0',@MODEL,'0','0','0',@NAME,@SUBNAME,'Directions',@GOSSIP_MENU,'80','80','0','35','3','0.91','1.14286','1','0','0','2000','2000','1','1','1','2','2048','0','0','7','138936390','0','0','0','0','0','0','0','SmartAI','0','1','0.0125','1','1','1','1','0','0','1','0','0','2','buff_npc','0');
+
+-- INSERT INTO creature_template (entry, modelid1, name, subname, IconName, gossip_menu_id, minlevel, maxlevel, faction, npcflag, speed_walk, speed_run, scale, rank, unit_class, unit_flags, type, type_flags, AiName, RegenHealth, flags_extra) VALUES
+-- (@ENTRY, @MODEL, @NAME, @SUBNAME, "Directions", @GOSSIP_MENU, 71, 71, 35, 3, 1, 1.14286, 1.25, 1, 1, 2, 7, 138936390, "SmartAI", 1, 2);
 
 -- Teleporter aura
 
@@ -55,7 +59,7 @@ INSERT INTO gossip_menu (menuid, textid) VALUES
 
 -- Gossip header texts
 
-INSERT INTO npc_text (ID, text0_0, em0_1) VALUES
+INSERT INTO npc_text (ID, text0_0, Emote0_1) VALUES
 (@TEXT_ID+4, "$BWhere would you like to be ported?$B", 0),
 (@TEXT_ID+3, "$BBe careful with choosing raids, I won't be there if you wipe.$B", 0),
 (@TEXT_ID+2, "$BUp for some dungeon exploring?$B", 0),
@@ -519,7 +523,7 @@ INSERT INTO smart_scripts (entryorguid, source_type, id, link, event_type, event
 -- Teleporter spawns:
 
 ALTER TABLE creature AUTO_INCREMENT = 200000;
-INSERT INTO creature (id, map, spawnMask, phaseMask, modelid, position_x, position_y, position_z, orientation, spawntimesecs, spawndist, curhealth, curmana) VALUES
+INSERT INTO creature (id, map, spawnMask, phaseMask, modelid, position_x, position_y, position_z, orientation, spawntimesecs, wander_distance, curhealth, curmana) VALUES
 (@ENTRY, 0, 1, 1, 0, -13180.5, 342.503, 43.1936, 4.32977, 25, 0, 13700, 6540), 
 (@ENTRY, 530, 1, 1, 0, -3862.69, -11645.8, -137.629, 2.38273, 25, 0, 13700, 6540), 
 (@ENTRY, 0, 1, 1, 0, -4898.37, -965.118, 501.447, 2.25986, 25, 0, 13700, 6540), 
