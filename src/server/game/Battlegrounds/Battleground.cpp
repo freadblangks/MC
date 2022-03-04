@@ -40,6 +40,8 @@
 #include "WorldPacket.h"
 #include "WorldStatePackets.h"
 #include <cstdarg>
+#include "CFBGData.h"
+#include "CharacterCache.h"
 #ifdef ELUNA
 #include "LuaEngine.h"
 #endif
@@ -998,6 +1000,7 @@ void Battleground::StartBattleground()
 
 void Battleground::AddPlayer(Player* player)
 {
+    sCharacterCache->UpdateCharacterData(player->GetGUID(), player->GetName(), {}, player->GetRace());
     // remove afk from player
     if (player->HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_AFK))
         player->ToggleAFK();

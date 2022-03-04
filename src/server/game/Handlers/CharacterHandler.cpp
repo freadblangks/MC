@@ -52,6 +52,7 @@
 #include "SystemPackets.h"
 #include "QueryHolder.h"
 #include "World.h"
+#include "CFBGData.h"
 #ifdef ELUNA
 #include "LuaEngine.h"
 #endif

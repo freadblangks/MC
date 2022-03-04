@@ -23,6 +23,7 @@
 #include "Battleground.h"
 #include "BattlegroundQueue.h"
 #include <unordered_map>
+#include "CFBGQueue.h"
 
 struct BattlemasterListEntry;
 
