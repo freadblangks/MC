@@ -20,6 +20,7 @@ void AddSC_Transmogrification();
 void AddSC_CrossfactionBattlegrounds();
 void AddSC_AutoBalance();
 void AddSC_AddCongratsOnLevelScripts();
+void AddSC_AddCustomServerScripts();
 
 // The name of this function should match:
 // void Add${NameOfDirectory}Scripts()
@@ -29,4 +30,5 @@ void AddCustomScripts()
 	AddSC_CrossfactionBattlegrounds();
     AddSC_AutoBalance();
 	AddSC_AddCongratsOnLevelScripts();
+	AddSC_AddCustomServerScripts();
 }
