@@ -90,17 +90,17 @@ local Paccid = player:GetAccountId();
 	print(ACCT[Paccid].Name.." :VIP table loaded.")
 
 		if(ACCT[Paccid].Votes < ACCT["SERVER"].Vote_count)then
-			SetVip(player,1)
-			player:SendBroadcastMessage("/say "..ACCT["SERVER"].Commands.."|cff00cc00 for a list of VIP commands.|r")
+			--SetVip(player,1)
+			--player:SendBroadcastMessage("/say "..ACCT["SERVER"].Commands.."|cff00cc00 for a list of VIP commands.|r")
 			return false;
 			end
 		if(ACCT[Paccid].Votes > (ACCT["SERVER"].Vote_count*ACCT["SERVER"].Vip_max))then
-			SetVip(player,ACCT["SERVER"].Vip_max)
-			player:SendBroadcastMessage("/say "..ACCT["SERVER"].Commands.."|cff00cc00 for a list of VIP commands.|r")
+			--SetVip(player,ACCT["SERVER"].Vip_max)
+			--player:SendBroadcastMessage("/say "..ACCT["SERVER"].Commands.."|cff00cc00 for a list of VIP commands.|r")
 			return false;
 			end
-	SetVip(player,(math.ceil(ACCT[Paccid].Votes / ACCT["SERVER"].Vote_count)))
-	player:SendBroadcastMessage("/say "..ACCT["SERVER"].Commands.."|cff00cc00 for a list of VIP commands.|r")
+	--SetVip(player,(math.ceil(ACCT[Paccid].Votes / ACCT["SERVER"].Vote_count)))
+	--player:SendBroadcastMessage("/say "..ACCT["SERVER"].Commands.."|cff00cc00 for a list of VIP commands.|r")
 end
 
 RegisterPlayerEvent(30, Player_Vip_Table)
