@@ -537,30 +537,6 @@ class spell_q12634_despawn_fruit_tosser : public SpellScript
     }
 };
 
-// http://www.wowhead.com/quest=12683 Burning to Help
-// 52308 - Take Sputum Sample
-class spell_q12683_take_sputum_sample : public SpellScript
-{
-    PrepareSpellScript(spell_q12683_take_sputum_sample);
-
-    void HandleDummy(SpellEffIndex /*effIndex*/)
-    {
-        uint32 reqAuraId = GetEffectInfo(EFFECT_1).CalcValue();
-
-        Unit* caster = GetCaster();
-        if (caster->HasAuraEffect(reqAuraId, 0))
-        {
-            uint32 spellId = GetEffectInfo().CalcValue();
-            caster->CastSpell(caster, spellId, true);
-        }
-    }
-
-    void Register() override
-    {
-        OnEffectHit += SpellEffectFn(spell_q12683_take_sputum_sample::HandleDummy, EFFECT_0, SPELL_EFFECT_DUMMY);
-    }
-};
-
 // http://www.wowhead.com/quest=12851 Going Bearback
 enum Quest12851Data
 {
@@ -866,38 +842,6 @@ class spell_q9452_cast_net : public SpellScript
     }
 };
 
-enum BreakfastOfChampions
-{
-    SPELL_SUMMON_DEEP_JORMUNGAR     = 66510,
-    SPELL_STORMFORGED_MOLE_MACHINE  = 66492
-};
-
-// 66512 - Pound Drum
-class spell_q14076_14092_pound_drum : public SpellScript
-{
-    PrepareSpellScript(spell_q14076_14092_pound_drum);
-
-    bool Validate(SpellInfo const* /*spell*/) override
-    {
-        return ValidateSpellInfo({ SPELL_SUMMON_DEEP_JORMUNGAR, SPELL_STORMFORGED_MOLE_MACHINE });
-    }
-
-    void HandleSummon()
-    {
-        Unit* caster = GetCaster();
-
-        if (roll_chance_i(50))
-            caster->CastSpell(caster, SPELL_SUMMON_DEEP_JORMUNGAR, true);
-        else
-            caster->CastSpell(caster, SPELL_STORMFORGED_MOLE_MACHINE, true);
-    }
-
-    void Register() override
-    {
-        OnCast += SpellCastFn(spell_q14076_14092_pound_drum::HandleSummon);
-    }
-};
-
 enum FocusOnTheBeach
 {
     SPELL_BUNNY_CREDIT_BEAM = 47390,
@@ -917,47 +861,6 @@ class spell_q12066_bunny_kill_credit : public SpellScript
     void Register() override
     {
         OnEffectHitTarget += SpellEffectFn(spell_q12066_bunny_kill_credit::HandleDummy, EFFECT_0, SPELL_EFFECT_DUMMY);
-    }
-};
-
-enum ACleansingSong
-{
-    SPELL_SUMMON_SPIRIT_ATAH        = 52954,
-    SPELL_SUMMON_SPIRIT_HAKHALAN    = 52958,
-    SPELL_SUMMON_SPIRIT_KOOSU       = 52959,
-
-    AREA_BITTERTIDELAKE             = 4385,
-    AREA_RIVERSHEART                = 4290,
-    AREA_WINTERGRASPRIVER           = 4388,
-};
-
-// 52941 - Song of Cleansing
-class spell_q12735_song_of_cleansing : public SpellScript
-{
-    PrepareSpellScript(spell_q12735_song_of_cleansing);
-
-    void HandleScript(SpellEffIndex /*effIndex*/)
-    {
-        Unit* caster = GetCaster();
-        switch (caster->GetAreaId())
-        {
-            case AREA_BITTERTIDELAKE:
-                caster->CastSpell(caster, SPELL_SUMMON_SPIRIT_ATAH);
-                break;
-            case AREA_RIVERSHEART:
-                caster->CastSpell(caster, SPELL_SUMMON_SPIRIT_HAKHALAN);
-                break;
-            case AREA_WINTERGRASPRIVER:
-                caster->CastSpell(caster, SPELL_SUMMON_SPIRIT_KOOSU);
-                break;
-            default:
-                break;
-        }
-    }
-
-    void Register() override
-    {
-        OnEffectHitTarget += SpellEffectFn(spell_q12735_song_of_cleansing::HandleScript, EFFECT_0, SPELL_EFFECT_SCRIPT_EFFECT);
     }
 };
 
@@ -2207,7 +2110,6 @@ void AddSC_quest_spell_scripts()
     RegisterSpellScript(spell_q11730_ultrasonic_screwdriver);
     RegisterSpellScript(spell_q12459_seeds_of_natures_wrath);
     RegisterSpellScript(spell_q12634_despawn_fruit_tosser);
-    RegisterSpellScript(spell_q12683_take_sputum_sample);
     RegisterSpellScript(spell_q12851_going_bearback);
     RegisterSpellScript(spell_q10041_q10040_who_are_they);
     RegisterSpellScript(spell_q12659_ahunaes_knife);
@@ -2217,9 +2119,7 @@ void AddSC_quest_spell_scripts()
     RegisterSpellScript(spell_q13280_13283_jump_jets);
     RegisterSpellScript(spell_q14112_14145_chum_the_water);
     RegisterSpellScript(spell_q9452_cast_net);
-    RegisterSpellScript(spell_q14076_14092_pound_drum);
     RegisterSpellScript(spell_q12066_bunny_kill_credit);
-    RegisterSpellScript(spell_q12735_song_of_cleansing);
     RegisterSpellScript(spell_q12372_cast_from_gossip_trigger);
     RegisterSpellScript(spell_q12372_destabilize_azure_dragonshrine_dummy);
     RegisterSpellScript(spell_q11010_q11102_q11023_aggro_check_aura);
