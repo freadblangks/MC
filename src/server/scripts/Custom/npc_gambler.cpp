@@ -139,10 +139,10 @@ public:
         // Announce Module
         if (firstLogin)
         {
-            if (GamblerNPCAnnounce)
+            /*if (GamblerNPCAnnounce)
             {
                 ChatHandler(player->GetSession()).SendSysMessage("This server is running the |cff4CFF00GamblerNPC |rmodule.");
-            }
+            }*/
         }
     }
 };

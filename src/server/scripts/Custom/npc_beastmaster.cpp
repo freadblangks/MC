@@ -105,10 +105,10 @@ public:
     {
         if (firstLogin) {
             // Announce Module
-            if (sConfigMgr->GetBoolDefault("BeastMasterNPC.Announce", true))
+            /*if (sConfigMgr->GetBoolDefault("BeastMasterNPC.Announce", true))
             {
                 ChatHandler(player->GetSession()).SendSysMessage("This server is running the |cff4CFF00BeastMasterNPC |rmodule");
-            }
+            }*/
         }
     }
 };
