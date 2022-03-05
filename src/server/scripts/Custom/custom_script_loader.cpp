@@ -31,6 +31,7 @@ void AddSC_AddNPCGamblerScripts();
 void AddSC_Npc_VisualWeaponScripts();
 void AddSC_AddRewardSystemScripts();
 void AddSC_GOMove_commandscript();
+void AddSC_premium_account();
 
 // The name of this function should match:
 // void Add${NameOfDirectory}Scripts()
@@ -51,4 +52,5 @@ void AddCustomScripts()
 	AddSC_Npc_VisualWeaponScripts();
 	AddSC_AddRewardSystemScripts();
 	AddSC_GOMove_commandscript();
+	AddSC_premium_account();
 }
