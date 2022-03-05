@@ -15,11 +15,11 @@ using namespace std;
 
 enum VisualWeaponsGossip
 {
-    VIS_DEFAULT_MESSAGE         = 907,
+    VIS_DEFAULT_MESSAGE = 907,
     VIS_GOSSIP_MAIN_MENU_ACTION = 100,
     VIS_GOSSIP_MAIN_HAND_ACTION = 200,
-    VIS_GOSSIP_OFF_HAND_ACTION  = 300,
-    VIS_GOSSIP_CLOSE_ACTION     = 400
+    VIS_GOSSIP_OFF_HAND_ACTION = 300,
+    VIS_GOSSIP_CLOSE_ACTION = 400
 };
 
 struct VisualData
@@ -93,73 +93,73 @@ public:
     {
         NPC_PassiveAI(Creature* creature) : ScriptedAI(creature) { }
 
-    bool MainHand;
+        bool MainHand;
 
-    void SetVisual(Player* player, uint32 visual_id)
-    {
-        uint8 slot = MainHand ? EQUIPMENT_SLOT_MAINHAND : EQUIPMENT_SLOT_OFFHAND;
-
-        Item* item = player->GetItemByPos(INVENTORY_SLOT_BAG_0, slot);
-
-        if (!item)
+        void SetVisual(Player* player, uint32 visual_id)
         {
-            ChatHandler(player->GetSession()).PSendSysMessage("No equipped item available to change the visual effect.");
-            return;
+            uint8 slot = MainHand ? EQUIPMENT_SLOT_MAINHAND : EQUIPMENT_SLOT_OFFHAND;
+
+            Item* item = player->GetItemByPos(INVENTORY_SLOT_BAG_0, slot);
+
+            if (!item)
+            {
+                ChatHandler(player->GetSession()).PSendSysMessage("No equipped item available to change the visual effect.");
+                return;
+            }
+
+            const ItemTemplate* itemTemplate = item->GetTemplate();
+            if (itemTemplate->Class != ITEM_CLASS_WEAPON)
+                return;
+
+            if (itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_BOW ||
+                itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_GUN ||
+                itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_obsolete ||
+                itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_THROWN ||
+                itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_SPEAR ||
+                itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_CROSSBOW ||
+                itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_WAND ||
+                itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_FISHING_POLE)
+                return;
+
+            player->SetUInt16Value(PLAYER_VISIBLE_ITEM_1_ENCHANTMENT + (item->GetSlot() * 2), 0, visual_id);
+            CharacterDatabase.PExecute("REPLACE into `mod_weapon_visual_effect` (`item_guid`, `enchant_visual_id`) VALUES ('%u', '%u')", item->GetGUID().GetCounter(), visual_id);
         }
 
-        const ItemTemplate* itemTemplate = item->GetTemplate();
-        if (itemTemplate->Class != ITEM_CLASS_WEAPON)
-            return;
-
-        if (itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_BOW ||
-            itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_GUN ||
-            itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_obsolete ||
-            itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_THROWN ||
-            itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_SPEAR ||
-            itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_CROSSBOW ||
-            itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_WAND ||
-            itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_FISHING_POLE)
-            return;
-
-        player->SetUInt16Value(PLAYER_VISIBLE_ITEM_1_ENCHANTMENT + (item->GetSlot() * 2), 0, visual_id);
-        CharacterDatabase.PExecute("REPLACE into `mod_weapon_visual_effect` (`item_guid`, `enchant_visual_id`) VALUES ('%u', '%u')", item->GetGUID(), visual_id);
-    }
-
-    void GetMenu(Player* player, Creature* creature, uint32 menuId)
-    {
-        for (uint8 i = 0; i < (sizeof(vData) / sizeof(*vData)); i++)
+        void GetMenu(Player* player, Creature* creature, uint32 menuId)
         {
-            if (vData[i].Menu == menuId)
-                AddGossipItemFor(player, vData[i].Icon, vData[i].Name, GOSSIP_SENDER_MAIN, i);
+            for (uint8 i = 0; i < (sizeof(vData) / sizeof(*vData)); i++)
+            {
+                if (vData[i].Menu == menuId)
+                    AddGossipItemFor(player, vData[i].Icon, vData[i].Name, GOSSIP_SENDER_MAIN, i);
+            }
+
+            player->PlayerTalkClass->SendGossipMenu(DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
         }
 
-        player->PlayerTalkClass->SendGossipMenu(DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
-    }
-
-    void GetMainMenu(Player* player, Creature* creature)
-    {
-        AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "|TInterface/PaperDoll/UI-PaperDoll-Slot-MainHand:40:40:-18|tMain-Hand", GOSSIP_SENDER_MAIN, VIS_GOSSIP_MAIN_HAND_ACTION);
-        AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "|TInterface/PaperDoll/UI-PaperDoll-Slot-SecondaryHand:40:40:-18|tOff-Hand", GOSSIP_SENDER_MAIN, VIS_GOSSIP_OFF_HAND_ACTION);
-        AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "|TInterface/PaperDollInfoFrame/UI-GearManager-Undo:40:40:-18|tNevermind", GOSSIP_SENDER_MAIN, VIS_GOSSIP_CLOSE_ACTION);
-
-        player->PlayerTalkClass->SendGossipMenu(VIS_DEFAULT_MESSAGE, creature->GetGUID());
-    }
-
-    bool OnGossipHello(Player* player)
-    {
-        GetMainMenu(player, me);
-        return true;
-    }
-
-    bool OnGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
-    {
-        uint32 const sender = player->PlayerTalkClass->GetGossipOptionSender(gossipListId);
-        uint32 const action = player->PlayerTalkClass->GetGossipOptionAction(gossipListId);
-
-        player->PlayerTalkClass->ClearMenus();
-
-        switch (action)
+        void GetMainMenu(Player* player, Creature* creature)
         {
+            AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "|TInterface/PaperDoll/UI-PaperDoll-Slot-MainHand:40:40:-18|tMain-Hand", GOSSIP_SENDER_MAIN, VIS_GOSSIP_MAIN_HAND_ACTION);
+            AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "|TInterface/PaperDoll/UI-PaperDoll-Slot-SecondaryHand:40:40:-18|tOff-Hand", GOSSIP_SENDER_MAIN, VIS_GOSSIP_OFF_HAND_ACTION);
+            AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "|TInterface/PaperDollInfoFrame/UI-GearManager-Undo:40:40:-18|tNevermind", GOSSIP_SENDER_MAIN, VIS_GOSSIP_CLOSE_ACTION);
+
+            player->PlayerTalkClass->SendGossipMenu(VIS_DEFAULT_MESSAGE, creature->GetGUID());
+        }
+
+        bool OnGossipHello(Player* player)
+        {
+            GetMainMenu(player, me);
+            return true;
+        }
+
+        bool OnGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+        {
+            uint32 const sender = player->PlayerTalkClass->GetGossipOptionSender(gossipListId);
+            uint32 const action = player->PlayerTalkClass->GetGossipOptionAction(gossipListId);
+
+            player->PlayerTalkClass->ClearMenus();
+
+            switch (action)
+            {
             case VIS_GOSSIP_MAIN_HAND_ACTION:
                 MainHand = true;
                 GetMenu(player, me, 1);
@@ -173,24 +173,24 @@ public:
             case VIS_GOSSIP_CLOSE_ACTION:
                 CloseGossipMenuFor(player);
                 return false;
-        }
+            }
 
-        uint32 menuData = vData[action].Submenu;
+            uint32 menuData = vData[action].Submenu;
 
-        if (menuData == VIS_GOSSIP_MAIN_MENU_ACTION)
-        {
-            GetMainMenu(player, me);
+            if (menuData == VIS_GOSSIP_MAIN_MENU_ACTION)
+            {
+                GetMainMenu(player, me);
+                return true;
+            }
+            else if (menuData == 0)
+            {
+                SetVisual(player, vData[action].Id);
+                menuData = vData[action].Menu;
+            }
+
+            GetMenu(player, me, menuData);
             return true;
         }
-        else if (menuData == 0)
-        {
-            SetVisual(player, vData[action].Id);
-            menuData = vData[action].Menu;
-        }
-
-        GetMenu(player, me, menuData);
-        return true;
-    }
     };
     // CREATURE AI
     CreatureAI* GetAI(Creature* creature) const override
@@ -199,58 +199,58 @@ public:
     }
 };
 
-    class player_visualweapon : public PlayerScript
+class player_visualweapon : public PlayerScript
+{
+public:
+    player_visualweapon() : PlayerScript("player_visualweapons")
     {
-    public:
-        player_visualweapon() : PlayerScript("player_visualweapons")
+        // Delete unused rows from DB table
+        CharacterDatabase.DirectExecute("DELETE FROM `mod_weapon_visual_effect` WHERE NOT EXISTS(SELECT 1 FROM item_instance WHERE `mod_weapon_visual_effect`.item_guid = item_instance.guid)");
+    }
+
+    void GetVisual(Player* player)
+    {
+        if (!player)
+            return;
+
+        Item* pItem;
+
+        // We need to query the DB to get item
+        QueryResult result = CharacterDatabase.PQuery("SELECT item_guid, enchant_visual_id FROM `mod_weapon_visual_effect` WHERE item_guid IN(SELECT guid FROM item_instance WHERE owner_guid = %u)", player->GetGUID().GetCounter());
+
+        if (!result)
+            return;
+
+        // Now we have query the DB we need to get the fields.
+        do
         {
-            // Delete unused rows from DB table
-            CharacterDatabase.DirectExecute("DELETE FROM `mod_weapon_visual_effect` WHERE NOT EXISTS(SELECT 1 FROM item_instance WHERE `mod_weapon_visual_effect`.item_guid = item_instance.guid)");
-        }
+            Field* fields = result->Fetch();
+            uint32 item_guid = fields[0].GetUInt32();
+            uint32 visual = fields[1].GetUInt32();
 
-        void GetVisual(Player* player)
-        {
-            if (!player)
-                return;
-
-            Item* pItem;
-
-            // We need to query the DB to get item
-            QueryResult result = CharacterDatabase.PQuery("SELECT item_guid, enchant_visual_id FROM `mod_weapon_visual_effect` WHERE item_guid IN(SELECT guid FROM item_instance WHERE owner_guid = %u)", player->GetGUID());
-
-            if (!result)
-                return;
-
-            // Now we have query the DB we need to get the fields.
-            do
+            // Lets loop to check item by pos
+            for (int i = EQUIPMENT_SLOT_MAINHAND; i <= EQUIPMENT_SLOT_OFFHAND; ++i)
             {
-                Field* fields = result->Fetch();
-                uint32 item_guid = fields[0].GetUInt32();
-                uint32 visual = fields[1].GetUInt32();
+                pItem = player->GetItemByPos(255, i);
 
-                // Lets loop to check item by pos
-                for (int i = EQUIPMENT_SLOT_MAINHAND; i <= EQUIPMENT_SLOT_OFFHAND; ++i)
+                if (pItem && pItem->GetGUID().GetCounter() == item_guid)
                 {
-                    pItem = player->GetItemByPos(255, i);
-
-                    if (pItem && pItem->GetGUID() == item_guid)
-                    {
-                        player->SetUInt16Value(PLAYER_VISIBLE_ITEM_1_ENCHANTMENT + (pItem->GetSlot() * 2), 0, visual);
-                    }
+                    player->SetUInt16Value(PLAYER_VISIBLE_ITEM_1_ENCHANTMENT + (pItem->GetSlot() * 2), 0, visual);
                 }
-            } while (result->NextRow());
-        }
+            }
+        } while (result->NextRow());
+    }
 
-        // if Player has item in bag and re-equip it lets check for enchant
-        void OnEquip(Player* player, Item* /*item*/, uint8 /*bag*/, uint8 /*slot*/, bool /*update*/)
-        {
-            GetVisual(player);
-        }
+    // if Player has item in bag and re-equip it lets check for enchant
+    void OnEquip(Player* player, Item* /*item*/, uint8 /*bag*/, uint8 /*slot*/, bool /*update*/)
+    {
+        GetVisual(player);
+    }
 
-        void OnLogin(Player* p, bool firstLogin)
-        {
-            GetVisual(p);
-        }
+    void OnLogin(Player* p, bool firstLogin)
+    {
+        GetVisual(p);
+    }
 };
 
 void AddSC_Npc_VisualWeaponScripts()
